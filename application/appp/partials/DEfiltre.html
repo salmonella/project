@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html ng-app="plunker">
+
+  <head>
+    <meta charset="utf-8" />
+    <title>AngularJS Plunker</title>
+    <link data-require="bootstrap-css@2.3.2" data-semver="2.3.2" rel="stylesheet" href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" />
+    <script>document.write('<base href="' + document.location + '" />');</script>
+    <link rel="stylesheet" href="style.css" />
+    <script data-require="angular.js@1.1.x" src="http://code.angularjs.org/1.1.5/angular.min.js" data-semver="1.1.5"></script>
+    <script src="js/controllers/studentfilter.js"></script>
+  </head>
+
+  <body ng-controller="studentfilter">
+       <div class="container">
+    <div class="col-sm-12 col-sm-offset-0">
+       <h1>Demandes par etudiant : </h1>
+ 
+    choisissez un etudiant : 
+        <multiselect class="input-xlarge"
+        ng-model="selectedstudent"
+        options="c.name for c in student"
+        change="selected()" 
+        ng-change="affichage(selectedstudent.email)"></multiselect>
+        <div class="well well-small">
+            vous avez selectionné l'étudiant : {{selectedstudent.name}} {{selectedstudent.prenom}}
+        </div> 
+       
+       
+        <div ng-show="activation != null">
+
+         <table  class="table table-striped table-hover" > 
+                
+             <thead>
+                            <th><b><center>NOM</center></b></th>
+                            <th><b><center>PRENOM</center></b></th>
+                            <th><b><center>Num ETUDIANT</center></b></th>
+                            <th><b><center>SPECIALITE</center></b></th>
+                            <th><b><center>EMAIL</center></b></th>
+                            <th><b><center>ANNEE</center></b></th>
+                            <th><b><center>MOTIF ABSCENCE</center></b></th>
+                            <th><b><center>DU</center></b></th>
+                            <th><b><center>AU</center></b></th>
+                            <th><b><center>etat</center></b></th>
+                        </thead>
+
+                        <tr ng-repeat="x in onestudent"> 
+                            <td><center> {{x.nom}} </center></td>
+                            <td><center> {{x.prenom}} </center></td>
+                            <td><center> {{x.idstudent}}</center></td>
+                            <td><center> {{x.specialite}} </center></td>
+                            <td><center> {{x.email}} </center></td>
+                            <td><center> {{x.scholarship}} </center></td>
+                            <td><center> {{x.motif}} </center></td>
+                            <td><center> {{x.date_debut}} </center></td>
+                            <td><center> {{x.date_fin}} </center></td>
+                            <td><center> {{x.etat}} </center></td>
+                            </tr>
+                        </table>
+                   </div>
+                    </div>
+                  </div>
+  </body>
+
+</html>

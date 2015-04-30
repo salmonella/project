@@ -1,0 +1,217 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html ng-app="myApp" >
+<head>
+    <!-- CSS ===================== -->
+    <!-- load bootstrap -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"/> 
+    <style>
+    body    { padding-top:50px; }
+    </style>
+    
+    <!-- JS ===================== -->
+    <!-- load angular -->
+    <script src="http://code.angularjs.org/1.2.6/angular.js"></script> 
+    <script src= "http://ajax.googleapis.com/ajax/libs/angularjs/1.2.26/angular.min.js"></script>
+    <script src="lib/angular/angular.js"></script>
+    <script src="lib/angular/angular-route.js"></script>
+
+    <script src="js/app.js"></script>
+
+    <script src="js/directives/loginDrc.js"></script>
+
+    <script src="js/controllers/loginCtrl.js"></script>
+    <script src="js/controllers/homeCtrl.js"></script>
+
+    <script src="js/services/loginService.js"></script>
+    <script src="js/services/sessionService.js"></script>
+    <script src="js/controllers/mainController.js"></script>
+</head>
+
+<!-- apply angular app and controller to our body -->
+<body ng-controller="mainController" >
+    <ul>
+       <li class="err" ng-repeat="error in errors"> {{ error}} </li>
+   </ul>
+   <ul>
+    <li class="info" ng-repeat="msg in msgs"> {{ msg}} </li>
+</ul>
+<div class="container">
+    <div class="col-sm-12 col-sm-offset-0">
+
+        <!-- PAGE HEADER -->
+        <div class="page-header"><b><h1>Demande d'abscence  </h1></b></div>
+
+        <!-- FORM -->
+        <!-- pass in the variable if our form is valid or invalid -->
+        <form name="userForm" ng-submit="submitForm(userForm.$valid)" novalidate > <!-- novalidate prevents HTML5 validation sincse we will be validating ourselves -->
+            <fieldset>
+             <legend>Vos informations personnelles</legend> <!-- Titre du fieldset --> 
+             <!-- Nom -->
+             <div class="form-group">
+                <div class="form-group" ng-class="{ 'has-error' : userForm.nom.$invalid && !userForm.nom.$pristine }">
+                    <label>Nom de famille </label>
+                    <input type="text" name="nom" class="form-control" ng-model="nom" placeholder="ex : PATRICK " pattern="[A-Za-z]" required>
+
+                    <p ng-show="userForm.nom.$invalid && !userForm.nom.$pristine" class="help-block">Your name is required.</p>
+                </div>
+
+                <!-- Prenom -->
+                <div class="form-group">
+                    <div class="form-group" ng-class="{ 'has-error' : userForm.prenom.$invalid && !userForm.prenom.$pristine }">
+                        <label>Prenom  </label>
+                        <input type="text" name="prenom" class="form-control" ng-model="prenom"  placeholder="ex : Jean " pattern="[A-Za-z]" required>
+                        <p ng-show="userForm.prenom.$invalid && !userForm.prenom.$pristine" class="help-block">Your name is required.</p>
+                    </div>
+                    <!-- Id student -->
+                    <div class="form-group">
+                        <div class="form-group" ng-class="{ 'has-error' : userForm.idstudent.$invalid && !userForm.idstudent.$pristine }">
+                            <label>Num d'etudiant : </label>
+                            <input type="text" name="idstudent" class="form-control" ng-model="idstudent" placeholder="ex : 245632546 " pattern="[0-9]{11}" required>
+
+                            <p ng-show="userForm.idstudent.$invalid && !userForm.idstudent.$pristine" class="help-block">Your Id is required.</p>
+                        </div>
+                        <!-- EMAIL -->
+                        <div class="form-group">
+                           <div class="form-group" ng-class="{ 'has-error' : userForm.name.$invalid && !userForm.name.$pristine }">
+                            <label>Email</label>
+                            <input type="email" name="email" class="form-control" ng-model="email "placeholder="ex : userpseudo@eilco-ulco.fr " required>
+                            <p ng-show="userForm.email.$invalid && !userForm.email.$pristine" class="help-block">Enter a valid email.</p>
+                        </div>
+
+                        <!-- Birthday -->
+                        <div class="form-group">
+                            <label for="numeric">Age</label>
+                            <input type="number" name="numerique" class="form-control" ng-model="numerique" value="20">
+                        </div>
+
+                        <!-- Birthday -->
+                        <div class="form-group">
+                            <label for="date">Date de naissance </label>
+                            <input type="date" name="date" class="form-control" ng-model="date" value="1991-08-08">
+                        </div>
+
+                        <!-- Spécialité et année d'études -->
+                        <div class="form-group">
+                            <label>Specialite : </label>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="specialite" value="GINDUS" ng-model="specialite">
+                                    Genie industriel.
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="specialite" value="GINFO" ng-model="specialite">
+                                    Genie informatique.
+                                </label>
+                            </div>
+                        </div>
+                        <label>Niveau d'etude: </label>     
+                        <div class="form-group">
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="scholarship" value="CP1" ng-model="scholarship">
+                                    1ere annee classe preparatoire .
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="scholarship" value="CP2" ng-model="scholarship">
+                                    2eme annee classe preparatoire .
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="scholarship" value="ING1" ng-model="scholarship">
+                                    1ere annee cycle ingenieur .
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="scholarship" value="ING2" ng-model="scholarship">
+                                    2eme annee cycle ingenieur .
+                                </label>
+                            </div>
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="scholarship" value="ING3" ng-model="scholarship">
+                                    3eme annee cycle ingenieur .
+                                </label>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <br></br>
+                    <fieldset>
+                     <legend>Autres informations </legend> <!-- Titre du fieldset --> 
+                     <label>Nature du motif de l'abscence : </label>
+                     <div class="form-group">
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="motif" value="maladie" ng-model="motif">
+                                Maladie
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="motif" value="motifadministratif" ng-model="motif">
+                                Motif administratif
+                            </label>
+                        </div>
+                        <div class="radio">
+                            <label>
+                                <input type="radio" name="motif" value="Autres" ng-model="motif">
+                                Autres (a praciser)
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group" >
+                        <label for="date">DU </label>
+                        <input type="date" name="date" class="form-control" ng-model="date_debut" value="2012-03-01">           
+                        <label for="date">AU </label>
+                        <input type="date" name="date" class="form-control" ng-model="date_fin" value="2012-03-01">
+                    </div>
+                </fieldset>
+                <!-- SUBMIT BUTTON -->
+                <div align="right"><button type="submit" class="btn btn-primary" ng-disabled="userForm.$invalid">Submit </button></div>
+                <br></br>
+                <fieldset>
+                </form>
+
+                <div ng-show="activation != null">
+                    <legend>Recapitulatif de vos demandes </legend> 
+                    <br></br>
+                    <table  class="table table-striped table-hover context-menu" >    
+                        <thead>
+                            <th><b><center>NOM</center></b></th>
+                            <th><b><center>PRENOM</center></b></th>
+                            <th><b><center>Num ETUDIANT</center></b></th>
+                            <th><b><center>SPECIALITE</center></b></th>
+                            <th><b><center>EMAIL</center></b></th>
+                            <th><b><center>ANNEE</center></b></th>
+                            <th><b><center>MOTIF ABSCENCE</center></b></th>
+                            <th><b><center>DU</center></b></th>
+                            <th><b><center>AU</center></b></th>
+                            <th><b><center>ACTION</center></b></th>
+                        </thead>
+                        <tr ng-repeat="x in student"> 
+                            <!--<tr>-->
+                            <td><center> {{x.nom}} </center></td>
+                            <td><center> {{x.prenom}} </center></td>
+                            <td><center> {{x.idstudent}}</center></td>
+                            <td><center> {{x.specialite}} </center></td>
+                            <td><center> {{x.email}} </center></td>
+                            <td><center> {{x.scholarship}} </center></td>
+                            <td><center> {{x.motif}} </center></td>
+                            <td><center> {{x.date_debut}} </center></td>
+                            <td><center> {{x.date_fin}} </center></td>
+                            <td><input type="button" value="Remove" class="btn btn-primary" ng-click="removeRow(student.nom)"/></td> 
+                        </tr>
+                    </table>
+                </div>    
+            </fieldset>
+        </div><!-- col-sm-8 --> 
+    </div><!-- /container -->
+</body>
+</html>
+
